@@ -1,0 +1,25 @@
+﻿<Page x:Class="_11.Log"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_11"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Авторизация">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Логин:" FontSize="20" Height="50" Width="150" Margin="295,50,355,50"/>
+        <TextBox Grid.Row="0" x:Name="txtUsername" Margin="370,50,280,70" VerticalContentAlignment="Center" Height="30" Width="150"/>
+        <TextBlock Grid.Row="1" Text="Пароль:" FontSize="20" Height="50" Width="150" Margin="295,50,355,50"/>
+        <PasswordBox Grid.Row="1" x:Name="txtPassword" Margin="370,50,280,70" Height="30" Width="150" VerticalContentAlignment="Center"/>
+        
+        <Button Grid.Row="2" Content="Войти" Click="LoginButton_Click" HorizontalAlignment="Center" Height="50" Width="150"/>
+    </Grid>
+</Page>
