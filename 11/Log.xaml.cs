@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -16,9 +17,13 @@ using System.Windows.Shapes;
 
 namespace _11
 {
-    /// <summary>
-    /// Логика взаимодействия для Log.xaml
-    /// </summary>
+    public class User
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Image { get; set; }
+    }
+
     public partial class Log : Page
     {
         public Log()
@@ -28,26 +33,70 @@ namespace _11
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string username = txtUsername.Text;
-            string password = txtPassword.Password;
+            try
+            {
+                string username = txtUsername.Text;
+                string password = txtPassword.Password;
 
-            string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
-            //MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
+                MessageBox.Show("Хэшированный пароль: " + hashedPassword);
 
-            /*if (YourAuthenticationService.ValidateUser(username, password))
-             {
-                 // Открываем новое окно или выполняем другие действия при успешной авторизации
-                 var mainAppWindow = new MainApplicationWindow();
-                 mainAppWindow.Show();
-                 this.Close();
-             }
-             else
-             {
-                 MessageBox.Show("Неверный логин или пароль");
-             }
-            */
+                string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
+                string queryString = "SELECT * FROM Авторизация";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    bool flag = false;
+
+                    while (reader.Read())
+                    {
+                        string logSQL = reader["Логин"].ToString();
+                        string pasSQL = reader["ХэшПароль"].ToString();
+                        string accessSQL = reader["ПраваДоступа"].ToString();
+
+                        if (logSQL == username && hashedPassword == pasSQL)
+                        {
+                            flag = true;
+
+                            MessageBox.Show("Этот пароль просто ахуенен");
+
+                            if (accessSQL == "1")
+                            {
+                                //NavigationService?.RemoveBackEntry();
+                               // LogFrame.Navigate(new ADMPage());
+                                LogFrame.Content = new ADMPage();
+                            }
+                            else
+                            {
+                                LogFrame.NavigationService.RemoveBackEntry();
+                                LogFrame.Navigate(new USER_Page());
+                            }
+
+                            break;
+                        }
+
+                    }
+
+                    if (!flag)
+                    {
+                        MessageBox.Show("Чушпан!\nТы что ввел то?\nСам видел то?");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex);
+
+            }
         }
     }
+
     public class PasswordHashing
     {
         public static string CalculateMD5Hash(string input)

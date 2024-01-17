@@ -32,7 +32,6 @@ namespace _11
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-
                 }
             }
             catch (Exception ex)

@@ -9,6 +9,10 @@
       Title="ADMPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="djskfvl;jkhgfiodk;" Grid.Row="1"></TextBlock>
     </Grid>
 </Page>
