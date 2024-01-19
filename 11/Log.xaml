@@ -20,6 +20,6 @@
         <PasswordBox Grid.Row="1" x:Name="txtPassword" Margin="370,50,280,70" Height="30" Width="150" VerticalContentAlignment="Center"/>
         
         <Button Grid.Row="2" Content="Войти" Click="LoginButton_Click" HorizontalAlignment="Center" Height="50" Width="150"/>
-        <Frame x:Name="LogFrame"/>
+        <Frame x:Name="LogFrame" NavigationUIVisibility="Visible"/>
     </Grid>
 </Page>

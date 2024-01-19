@@ -14,17 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static _11.MainWindow;
 
 namespace _11
 {
-    public class User
-    {
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Image { get; set; }
-    }
-
-    public partial class Log : Page
+        public partial class Log : Page
     {
         public Log()
         {
@@ -39,7 +33,8 @@ namespace _11
                 string password = txtPassword.Password;
 
                 string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
-                MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                //MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                //txtUsername.Text = hashedPassword;
 
                 string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
                 string queryString = "SELECT * FROM Авторизация";
@@ -57,7 +52,6 @@ namespace _11
                     {
                         string logSQL = reader["Логин"].ToString();
                         string pasSQL = reader["ХэшПароль"].ToString();
-                        string accessSQL = reader["ПраваДоступа"].ToString();
 
                         if (logSQL == username && hashedPassword == pasSQL)
                         {
@@ -65,18 +59,10 @@ namespace _11
 
                             MessageBox.Show("Этот пароль просто ахуенен");
 
-                            if (accessSQL == "1")
-                            {
-                                //NavigationService?.RemoveBackEntry();
-                               // LogFrame.Navigate(new ADMPage());
-                                LogFrame.Content = new ADMPage();
-                            }
-                            else
-                            {
-                                LogFrame.NavigationService.RemoveBackEntry();
-                                LogFrame.Navigate(new USER_Page());
-                            }
+                            MenuFrameClass.MainFrame.Navigate(new USER_Page());
 
+                            LogFrame.NavigationService.Navigate(new USER_Page());
+                            
                             break;
                         }
 

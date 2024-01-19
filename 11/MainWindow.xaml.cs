@@ -22,7 +22,8 @@ namespace _11
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new Log());
+            MenuFrameClass.MainFrame = MainFrame;
+            MenuFrameClass.MainFrame.Navigate(new Log());
 
             //MenuFrameClass.MainFrame = MainFrame;                                           // присвоение фрейму параментров get set    
 
@@ -38,6 +39,10 @@ namespace _11
             {
                 MessageBox.Show("Error: " + ex.Message, "База данных");
             }
+        }
+        internal class MenuFrameClass
+        {
+            public static Frame MainFrame { get; set; }  // присвоение gey set для фрейма
         }
     }
 }

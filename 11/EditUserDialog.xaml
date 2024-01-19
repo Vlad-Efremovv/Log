@@ -1,0 +1,46 @@
+﻿<Window x:Class="_11.EditUserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_11"
+        mc:Ignorable="d"
+        Title="EditUserDialog" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Код:" Grid.Row="0" Margin="5"/>
+        <TextBox x:Name="txtCode" Grid.Row="1" Margin="5"/>
+
+        <Label Content="Код Врача:" Grid.Row="2" Margin="5"/>
+        <TextBox x:Name="txtDoctorCode" Grid.Row="3" Margin="5"/>
+
+        <Label Content="Код Пациента:" Grid.Row="4" Margin="5"/>
+        <TextBox x:Name="txtPatientCode" Grid.Row="5" Margin="5"/>
+
+        <Label Content="Дата Визита:" Grid.Row="6" Margin="5"/>
+        <TextBox x:Name="txtVisitDate" Grid.Row="7" Margin="5"/>
+
+        <Label Content="Код Стоимости:" Grid.Row="8" Margin="5"/>
+        <TextBox x:Name="txtCostCode" Grid.Row="9" Margin="5"/>
+
+        <Label Content="Цель:" Grid.Row="10" Margin="5"/>
+        <TextBox x:Name="txtPurpose" Grid.Row="11" Margin="5"/>
+
+        <Button Content="Save" Grid.Row="12" Margin="5" Click="SaveButton_Click"/>
+    </Grid>
+</Window>

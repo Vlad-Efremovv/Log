@@ -55,10 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddUserDialog.xaml.cs">
+      <DependentUpon>AddUserDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditUserDialog.xaml.cs">
+      <DependentUpon>EditUserDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="USER_Page.xaml.cs">
       <DependentUpon>USER_Page.xaml</DependentUpon>
     </Compile>
-    <Page Include="ADM_Page.xaml">
+    <Page Include="AddUserDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditUserDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,9 +80,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ADM_Page.xaml.cs">
-      <DependentUpon>ADM_Page.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
