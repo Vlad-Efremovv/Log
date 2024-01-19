@@ -57,7 +57,7 @@ namespace _11
                         {
                             flag = true;
 
-                            MessageBox.Show("Этот пароль просто ахуенен");
+                            MessageBox.Show("Этот пароль просто шик");
 
                             MenuFrameClass.MainFrame.Navigate(new USER_Page());
 

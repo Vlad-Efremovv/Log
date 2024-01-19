@@ -35,10 +35,10 @@ namespace _11
             string visitDate = txtVisitDate.Text;
             string costCode = txtCostCode.Text;
             string purpose = txtPurpose.Text;
-
+            string diagnoz = txtDiagnoz.Text;
             // Добавление нового пользователя в систему или другая логика обработки
             // Пример: вызов метода для добавления пользователя
-            bool userAdded = AddNewUser(code, doctorCode, patientCode, visitDate, costCode, purpose);
+            bool userAdded = AddNewUser(code, doctorCode, patientCode, visitDate, costCode, purpose, diagnoz);
 
             if (userAdded)
             {
@@ -51,7 +51,7 @@ namespace _11
             }
         }
 
-        private bool AddNewUser(string code, string doctorCode, string patientCode, string visitDate, string costCode, string purpose)
+        private bool AddNewUser(string code, string doctorCode, string patientCode, string visitDate, string costCode, string purpose, string diagnoz)
         {
             string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
             try
@@ -61,15 +61,17 @@ namespace _11
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string insertQuery = "INSERT INTO [dbo].[Прием] ([@Код], [@КодВрача], [@КодПациента], [@ДатаВизита], [@КодСтоимости], [@Цель])" +
-                                         "VALUES (@Code, @DoctorCode, @PatientCode, @VisitDate, @CostCode, @Purpose)";
+                    string insertQuery = "INSERT INTO [dbo].[Прием] ([Код], [КодВрача], [КодПациента], [ДатаВизита], [КодСтоимости], [Цель], [КодДиагноза])" +
+                     "VALUES (@Code, @DoctorCode, @PatientCode, @VisitDate, @CostCode, @Purpose, @Diagnoz)";
+
                     SqlCommand command = new SqlCommand(insertQuery, connection);
-                    command.Parameters.AddWithValue("@Код", code);
-                    command.Parameters.AddWithValue("@КодВрача", doctorCode);
-                    command.Parameters.AddWithValue("@КодПациента", patientCode);
-                    command.Parameters.AddWithValue("@ДатаВизита", visitDate);
-                    command.Parameters.AddWithValue("@КодСтоимости", costCode);
-                    command.Parameters.AddWithValue("@Цель", purpose);
+                    command.Parameters.AddWithValue("@Code", Convert.ToInt32(code));
+                    command.Parameters.AddWithValue("@DoctorCode", Convert.ToInt32(doctorCode));
+                    command.Parameters.AddWithValue("@PatientCode", Convert.ToInt32(patientCode));
+                    command.Parameters.AddWithValue("@VisitDate", visitDate);
+                    command.Parameters.AddWithValue("@CostCode", Convert.ToInt32(costCode));
+                    command.Parameters.AddWithValue("@Purpose", purpose);
+                    command.Parameters.AddWithValue("@Diagnoz", Convert.ToInt32(diagnoz));
                     command.ExecuteNonQuery();
                 }
 
@@ -79,6 +81,7 @@ namespace _11
             catch (Exception ex)
             {
                 // Обработка ошибок (логирование, откат транзакции и т. д.)
+                MessageBox.Show("Ошибка:\n"+ex.Message);
                 return false;
             }
         }

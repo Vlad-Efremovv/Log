@@ -27,8 +27,9 @@ namespace _11
         public string ДатаВизита { get; set; }
         public string КодСтоимости { get; set; }
         public string Цель { get; set; }
+        public string КодДиагноза { get; set; }
         
-    } 
+    }
 
     public partial class USER_Page : Page
     {
@@ -48,7 +49,7 @@ namespace _11
                 {
                     connection.Open();
 
-                    string query = "SELECT * FROM Прием"; // Замените YourTableName на название вашей таблицы
+                    string query = "SELECT \r\n    Прием.Код AS КодПриема,\r\n    Врачь.ФИО AS ФИОВрача,\r\n    Пациент.ФИО AS ФИОПациента,\r\n    Прием.ДатаВизита,\r\n    Стоимость.Сумма AS СтоимостьВизита,\r\n    Диагноз.Наименование AS НаименованиеДиагноза\r\nFROM \r\n    Прием\r\nJOIN \r\n    Врачь ON Прием.КодВрача = Врачь.Код\r\nJOIN \r\n    Пациент ON Прием.КодПациента = Пациент.НомерКарты\r\nJOIN \r\n    Стоимость ON Прием.КодСтоимости = Стоимость.Код\r\nLEFT JOIN \r\n    Диагноз ON Прием.КодДиагноза = Диагноз.Код;"; // Замените YourTableName на название вашей таблицы
 
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
                     DataTable dt = new DataTable();
@@ -76,11 +77,11 @@ namespace _11
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string insertQuery = "INSERT INTO YourTableName (Name, Email) VALUES (@Name, @Email)";
-                    SqlCommand command = new SqlCommand(insertQuery, connection);
+                    //string insertQuery = "INSERT INTO YourTableName (Name, Email) VALUES (@Name, @Email)";
+                    //SqlCommand command = new SqlCommand(insertQuery, connection);
                     //command.Parameters.AddWithValue("@Name", newName);
                     //command.Parameters.AddWithValue("@Email", newEmail);
-                    command.ExecuteNonQuery();
+                    //command.ExecuteNonQuery();
                 }
 
                 // Обновляем содержимое DataGrid
@@ -103,12 +104,12 @@ namespace _11
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    string updateQuery = "UPDATE YourTableName SET Name = @Name, Email = @Email WHERE Id = @Id"; // Предположим, что у вашей таблицы есть поле Id для идентификации записи
-                    SqlCommand command = new SqlCommand(updateQuery, connection);
+                    //string updateQuery = "UPDATE YourTableName SET Name = @Name, Email = @Email WHERE Id = @Id"; // Предположим, что у вашей таблицы есть поле Id для идентификации записи
+                    //SqlCommand command = new SqlCommand(updateQuery, connection);
                     //command.Parameters.AddWithValue("@Name", editedName);
                     //command.Parameters.AddWithValue("@Email", editedEmail);
                     //command.Parameters.AddWithValue("@Id", selectedUser.Id);
-                    command.ExecuteNonQuery();
+                    //command.ExecuteNonQuery();
                 }
 
                 // Обновление содержимого DataGrid
@@ -118,7 +119,34 @@ namespace _11
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // Логика удаления выбранной записи из базы данных и обновления DataGrid
-        }
+            var selectedRecord = (Прием)dataGrid.SelectedItem; // Получаем выбранную запись из DataGrid
+
+            if (selectedRecord != null)
+            {
+                // Выполняем параметризованный запрос DELETE к базе данных
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        connection.Open();
+                        string deleteQuery = "DELETE FROM Прием WHERE Код = @Код";
+                        SqlCommand command = new SqlCommand(deleteQuery, connection);
+                        command.Parameters.AddWithValue("@Код", selectedRecord.Код);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Обновляем содержимое DataGrid
+                    BindDataToGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при удалении записи: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите запись для удаления.");
+            }
+        } 
     }
 }
