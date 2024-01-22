@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -21,44 +22,32 @@ namespace _11
     /// </summary>
     public partial class EditUserDialog : Window
     {
-        //private int КодПриема; // Предположим, что это поле для хранения идентификатора записи Приема
+
         private const string ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
         public EditUserDialog(int кодПриема) // Конструктор класса EditUserDialog
         {
-            InitializeComponent(); // Вызов метода для инициализации пользовательского интерфейса
-           // КодПриема = кодПриема; // Инициализация поля кода приёма
-
-            var data = GetDataFromDatabase(кодПриема); // Получение данных из базы данных
-
-                    }
-
-        private Прием GetDataFromDatabase(int кодПриема)
+            InitializeComponent();
+        }
+        public DataTable GetDataFromDatabase(int кодПриема)
         {
-            Прием data = new Прием();
+
+            string query = "SELECT * FROM Прием WHERE Код = @КодПриема";
+
+            DataTable dataTable = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                string query = "SELECT * FROM Прием WHERE Код = @Код";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Код", кодПриема);
-
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    data.Code = reader["Код"].ToString();
-                    data.DoctorCode = reader["КодВрача"].ToString();
-                    data.PatientCode = reader["КодПациента"].ToString();
-                    data.VisitDate = reader["ДатаВизита"].ToString();
-                    data.CostCode = reader["КодСтоимости"].ToString();
-                    data.Purpose = reader["Цель"].ToString();
-                    data.DiagnosisCode = reader["КодДиагноза"].ToString();
+                    command.Parameters.AddWithValue("@КодПриема", кодПриема);
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(dataTable);
+                    }
                 }
-
-                reader.Close();
             }
-            return data;
+
+            return dataTable;
         }
 
 
@@ -69,18 +58,16 @@ namespace _11
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "UPDATE Прием SET КодВрача = @КодВрача, КодПациента = @КодПациента, ДатаВизита = @ДатаВизита, КодСтоимости = @КодСтоимости, Цель = @Цель, КодДиагноза = @КодДиагноза WHERE Код = @Код";
+                string query = "UPDATE Прием SET КодВрача = @КодВрача, КодПациента = @КодПациента, ДатаВизита = @ДатаВизита, КодСтоимости = @КодСтоимости, Цель = @Цель, КодДиагноза = @КодДиагноза WHERE Код = @КодПриема";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Код", КодПриема);
-                    // Используем КодПриема, который был инициализирован в конструкторе класса
-                    command.Parameters.AddWithValue("@КодВрача", txtCode.Text); // Замените на реальное значение поля
-                    command.Parameters.AddWithValue("@КодПациента", txtDoctorCode.Text); // Замените на реальное значение поля
-                    command.Parameters.AddWithValue("@ДатаВизита", txtPatientCode.Text); // Замените на реальное значение поля
-                    command.Parameters.AddWithValue("@КодСтоимости", txtVisitDate.Text); // Замените на реальное значение поля
-                    command.Parameters.AddWithValue("@Цель", txtCostCode.Text); // Замените на реальное значение поля
-                    command.Parameters.AddWithValue("@КодДиагноза", txtPurpose.Text); // Замените на реальное значение поля
+                    command.Parameters.AddWithValue("@КодВрача", txtDoctorCode.Text);
+                    command.Parameters.AddWithValue("@КодПациента", txtPatientCode.Text);
+                    command.Parameters.AddWithValue("@ДатаВизита", txtVisitDate.Text);
+                    command.Parameters.AddWithValue("@КодСтоимости", txtCostCode.Text);
+                    command.Parameters.AddWithValue("@Цель", txtPurpose.Text);
+                    command.Parameters.AddWithValue("@КодДиагноза", txtDiagnoz.Text);
 
                     try
                     {
@@ -95,7 +82,6 @@ namespace _11
                 }
             }
             this.Close(); // Закрыть диалоговое окно
-
         }
 
     }
