@@ -12,6 +12,7 @@
         <DataGrid Name="dataGrid" AutoGenerateColumns="True" HorizontalAlignment="Left" Height="300" Margin="10,10,0,0" VerticalAlignment="Top" Width="780"/>
         <Button Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,320,0,0" Click="AddButton_Click"/>
         <Button Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,320,0,0" Click="UpdateButton_Click"/>
-        <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="170,320,0,0" Click="DeleteButton_Click"/>
+        <Button Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="170,320,0,0" Click="EditButton_Click"/>
+        <Button Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="250,320,0,0" Click="DeleteButton_Click"/>
     </Grid>
 </Page>

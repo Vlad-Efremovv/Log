@@ -69,73 +69,36 @@ namespace _11
             AddUserDialog dialog = new AddUserDialog(); // Предположим, что у вас есть класс для диалогового окна добавления пользователя
             if (dialog.ShowDialog() == true) // Показываем диалог и ждем результата
             {
-                // Получаем новые данные от диалогового окна
-                //string newName = dialog.UserName;
-                //string newEmail = dialog.UserEmail;
-
-                // Выполняем запрос INSERT в базу данных
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-                    //string insertQuery = "INSERT INTO YourTableName (Name, Email) VALUES (@Name, @Email)";
-                    //SqlCommand command = new SqlCommand(insertQuery, connection);
-                    //command.Parameters.AddWithValue("@Name", newName);
-                    //command.Parameters.AddWithValue("@Email", newEmail);
-                    //command.ExecuteNonQuery();
                 }
-
-                // Обновляем содержимое DataGrid
                 BindDataToGrid();
             }
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedUser = (Прием)dataGrid.SelectedItem; // Предположим, что вы используете тип User для обозначения записи в DataGrid
-
-            EditUserDialog dialog = new EditUserDialog(selectedUser); // Предположим, что у вас есть класс для диалогового окна редактирования пользователя
-            if (dialog.ShowDialog() == true) // Показываем диалог и ждем результата
-            {
-                // Получение отредактированных данных от пользователя
-                //string editedName = dialog.UserName;
-                //string editedEmail = dialog.UserEmail;
-
-                // Выполнение запроса UPDATE в базе данных
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    connection.Open();
-                    //string updateQuery = "UPDATE YourTableName SET Name = @Name, Email = @Email WHERE Id = @Id"; // Предположим, что у вашей таблицы есть поле Id для идентификации записи
-                    //SqlCommand command = new SqlCommand(updateQuery, connection);
-                    //command.Parameters.AddWithValue("@Name", editedName);
-                    //command.Parameters.AddWithValue("@Email", editedEmail);
-                    //command.Parameters.AddWithValue("@Id", selectedUser.Id);
-                    //command.ExecuteNonQuery();
-                }
-
-                // Обновление содержимого DataGrid
-                BindDataToGrid();
-            }
+            BindDataToGrid();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedRecord = (Прием)dataGrid.SelectedItem; // Получаем выбранную запись из DataGrid
-
-            if (selectedRecord != null)
+            if (dataGrid.SelectedItem != null)
             {
-                // Выполняем параметризованный запрос DELETE к базе данных
+                DataRowView row = (DataRowView)dataGrid.SelectedItem;
+                int КодПриема = Convert.ToInt32(row["КодПриема"]);
+
                 try
                 {
                     using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
                         connection.Open();
-                        string deleteQuery = "DELETE FROM Прием WHERE Код = @Код";
-                        SqlCommand command = new SqlCommand(deleteQuery, connection);
-                        command.Parameters.AddWithValue("@Код", selectedRecord.Код);
+                        string query = "DELETE FROM Прием WHERE Код = @КодПриема";
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@КодПриема", КодПриема);
                         command.ExecuteNonQuery();
                     }
-
-                    // Обновляем содержимое DataGrid
                     BindDataToGrid();
                 }
                 catch (Exception ex)
@@ -145,8 +108,28 @@ namespace _11
             }
             else
             {
-                MessageBox.Show("Выберите запись для удаления.");
+                MessageBox.Show("Пожалуйста, выберите запись для удаления.");
             }
-        } 
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+            {
+                DataRowView row = (DataRowView)dataGrid.SelectedItem;
+                int КодПриема = (int)row["КодПриема"]; // Предположим, что тип "КодПриема" - int
+
+                EditUserDialog dialog = new EditUserDialog(КодПриема);
+                if (dialog.ShowDialog() == true)
+                {
+                    BindDataToGrid(); // Обновляем отображаемые данные после редактирования
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите запись для редактирования.");
+            }
+        }
+
     }
 }
