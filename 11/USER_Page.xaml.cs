@@ -115,6 +115,7 @@ namespace _11
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
 
+
             EditUserDialog dialog = new EditUserDialog(3);
             /*
             if (dataGrid.SelectedItem != null)

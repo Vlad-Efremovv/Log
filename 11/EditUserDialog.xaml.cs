@@ -32,9 +32,9 @@ namespace _11
         }
         public void GetDataFromDatabase(int id)
         {
-
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
-            string queryString = "SELECT * FROM Авторизация";
+            
+                string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
+            string queryString = "SELECT * FROM Приема";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
