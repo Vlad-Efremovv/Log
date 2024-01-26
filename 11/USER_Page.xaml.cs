@@ -114,21 +114,37 @@ namespace _11
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+
+            EditUserDialog dialog = new EditUserDialog(3);
+            /*
             if (dataGrid.SelectedItem != null)
             {
                 DataRowView row = (DataRowView)dataGrid.SelectedItem;
-                int КодПриема = (int)row["КодПриема"]; // Предположим, что тип "КодПриема" - int
-
-                EditUserDialog dialog = new EditUserDialog(КодПриема);
-                if (dialog.ShowDialog() == true)
+                if (row["Код"] != DBNull.Value) // Проверка на значение null
                 {
-                    BindDataToGrid(); // Обновляем отображаемые данные после редактирования
+                    int id;
+                    if (int.TryParse(row["Код"].ToString(), out id)) // Попытка преобразования значения в целое число
+                    {
+                        EditUserDialog dialog = new EditUserDialog(3);
+                        if (dialog.ShowDialog() == true)
+                        {
+                            BindDataToGrid(); // Обновляем отображаемые данные после редактирования
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка: Невозможно преобразовать значение КодПриема в целое число.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка: Значение КодПриема не может быть null.");
                 }
             }
             else
             {
-                MessageBox.Show("Пожалуйста, выберите запись для редактирования.");
-            }
+                MessageBox.Show("Пожалуйста, выберите строку для редактирования.");
+            }*/
         }
 
     }

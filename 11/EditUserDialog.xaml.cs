@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static _11.MainWindow;
 
 namespace _11
 {
@@ -22,67 +23,88 @@ namespace _11
     /// </summary>
     public partial class EditUserDialog : Window
     {
+        public const string ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
 
-        private const string ConnectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
-        public EditUserDialog(int кодПриема) // Конструктор класса EditUserDialog
+        public EditUserDialog(int id) // Конструктор класса EditUserDialog
         {
+            GetDataFromDatabase(id);
             InitializeComponent();
         }
-        public DataTable GetDataFromDatabase(int кодПриема)
-        {
-
-            string query = "SELECT * FROM Прием WHERE Код = @КодПриема";
-
-            DataTable dataTable = new DataTable();
-
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@КодПриема", кодПриема);
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(dataTable);
-                    }
-                }
-            }
-
-            return dataTable;
-        }
-
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        public void GetDataFromDatabase(int id)
         {
 
             string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
+            string queryString = "SELECT * FROM Авторизация";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "UPDATE Прием SET КодВрача = @КодВрача, КодПациента = @КодПациента, ДатаВизита = @ДатаВизита, КодСтоимости = @КодСтоимости, Цель = @Цель, КодДиагноза = @КодДиагноза WHERE Код = @КодПриема";
+                SqlCommand command = new SqlCommand(queryString, connection);
+                connection.Open();
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                SqlDataReader reader = command.ExecuteReader();
+
+                bool flag = false;
+
+                while (reader.Read())
                 {
-                    command.Parameters.AddWithValue("@КодВрача", txtDoctorCode.Text);
-                    command.Parameters.AddWithValue("@КодПациента", txtPatientCode.Text);
-                    command.Parameters.AddWithValue("@ДатаВизита", txtVisitDate.Text);
-                    command.Parameters.AddWithValue("@КодСтоимости", txtCostCode.Text);
-                    command.Parameters.AddWithValue("@Цель", txtPurpose.Text);
-                    command.Parameters.AddWithValue("@КодДиагноза", txtDiagnoz.Text);
+                    string logSQL = reader["Код"].ToString();
+                    //string pasSQL = reader["ХэшПароль"].ToString();
 
-                    try
+                    if (logSQL == id.ToString())
                     {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Данные успешно обновлены в базе данных!");
+                        flag = true;
+
+                        txtDoctorCode.Text = reader["КодВрача"].ToString();
+
+                        MessageBox.Show("Этот пароль просто шик");
+
+                        MenuFrameClass.MainFrame.Navigate(new USER_Page());
+
+                        // LogFrame.NavigationService.Navigate(new USER_Page());
+
+                        break;
                     }
-                    catch (Exception ex)
+
+                }
+
+                if (!flag)
+                {
+                    MessageBox.Show("Чушпан!\nТы что ввел то?\nСам видел то?");
+                }
+
+            }
+
+        }
+            private void SaveButton_Click(object sender, RoutedEventArgs e) {
+
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    string query = "UPDATE Прием SET КодВрача = @КодВрача, КодПациента = @КодПациента, ДатаВизита = @ДатаВизита, КодСтоимости = @КодСтоимости, Цель = @Цель, КодДиагноза = @КодДиагноза WHERE Код = @КодПриема";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        MessageBox.Show("Ошибка при сохранении данных: " + ex.Message);
+                        command.Parameters.AddWithValue("@КодВрача", txtDoctorCode.Text);
+                        command.Parameters.AddWithValue("@КодПациента", txtPatientCode.Text);
+                        command.Parameters.AddWithValue("@ДатаВизита", txtVisitDate.Text);
+                        command.Parameters.AddWithValue("@КодСтоимости", txtCostCode.Text);
+                        command.Parameters.AddWithValue("@Цель", txtPurpose.Text);
+                        command.Parameters.AddWithValue("@КодДиагноза", txtDiagnoz.Text);
+
+                        try
+                        {
+                            connection.Open();
+                            command.ExecuteNonQuery();
+                            MessageBox.Show("Данные успешно обновлены в базе данных!");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Ошибка при сохранении данных: " + ex.Message);
+                        }
                     }
                 }
+                this.Close(); // Закрыть диалоговое окно
             }
-            this.Close(); // Закрыть диалоговое окно
         }
 
     }
-}
+

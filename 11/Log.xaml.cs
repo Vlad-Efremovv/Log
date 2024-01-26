@@ -33,7 +33,7 @@ namespace _11
                 string password = txtPassword.Password;
 
                 string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
-                //MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                MessageBox.Show("Хэшированный пароль: " + hashedPassword);
                 //txtUsername.Text = hashedPassword;
 
                 string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
