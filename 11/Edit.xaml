@@ -1,11 +1,11 @@
-﻿<Window x:Class="_11.EditUserDialog"
+﻿<Window x:Class="_11.Edit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_11"
         mc:Ignorable="d"
-        Title="EditUserDialog" Height="450" Width="800">
+        Title="Edit" Height="900" Width="1000" WindowStartupLocation="CenterScreen" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -24,23 +24,23 @@
         </Grid.RowDefinitions>
 
         <Label Content="Код Врача:" Grid.Row="0" Margin="5"/>
-        <TextBox x:Name="txtDoctorCode" Grid.Row="1" Margin="5"/>
+        <TextBox x:Name="DoctorCode" Text="{Binding DoctorCode}" Grid.Row="1" Margin="5"/>
 
         <Label Content="Код Пациента:" Grid.Row="2" Margin="5"/>
-        <TextBox x:Name="txtPatientCode" Grid.Row="3" Margin="5"/>
+        <TextBox x:Name="PatientCode" Text="{Binding DoctorCode}" Grid.Row="3" Margin="5"/>
 
         <Label Content="Дата Визита:" Grid.Row="4" Margin="5"/>
-        <TextBox x:Name="txtVisitDate" Grid.Row="5" Margin="5"/>
+        <TextBox x:Name="VisitDate" Text="{Binding DoctorCode}" Grid.Row="5" Margin="5"/>
 
         <Label Content="Код Стоимости:" Grid.Row="6" Margin="5"/>
-        <TextBox x:Name="txtCostCode" Grid.Row="7" Margin="5"/>
+        <TextBox x:Name="CostCode" Text="{Binding DoctorCode}" Grid.Row="7" Margin="5"/>
 
         <Label Content="Цель:" Grid.Row="8" Margin="5"/>
-        <TextBox x:Name="txtPurpose" Grid.Row="9" Margin="5"/>
+        <TextBox x:Name="Purpose" Text="{Binding DoctorCode}" Grid.Row="9" Margin="5"/>
 
         <Label Content="КодДиагноза:" Grid.Row="10" Margin="5"/>
-        <TextBox x:Name="txtDiagnoz" Grid.Row="11" Margin="5"/>
+        <TextBox x:Name="Diagnoz" Text="{Binding DoctorCode}" Grid.Row="11" Margin="5"/>
 
-        <Button Content="Save" Grid.Row="12" Margin="5" Click="SaveButton_Click"/>
+        <Button Content="Сохранить" Grid.Row="12" Margin="5" Click="EditButton_Click"/>
     </Grid>
 </Window>

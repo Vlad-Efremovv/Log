@@ -16,10 +16,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static _11.MainWindow;
 
 namespace _11
 {
-   public class Прием
+    public class Прием
     {
         public int Код { get; set; }
         public string КодВрача { get; set; }
@@ -28,7 +29,7 @@ namespace _11
         public string КодСтоимости { get; set; }
         public string Цель { get; set; }
         public string КодДиагноза { get; set; }
-        
+
     }
 
     public partial class USER_Page : Page
@@ -66,7 +67,7 @@ namespace _11
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            AddUserDialog dialog = new AddUserDialog(); // Предположим, что у вас есть класс для диалогового окна добавления пользователя
+            AddUserDialog dialog = new AddUserDialog(); 
             if (dialog.ShowDialog() == true) // Показываем диалог и ждем результата
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -114,39 +115,44 @@ namespace _11
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-
-
-            EditUserDialog dialog = new EditUserDialog(3);
-            /*
             if (dataGrid.SelectedItem != null)
             {
                 DataRowView row = (DataRowView)dataGrid.SelectedItem;
-                if (row["Код"] != DBNull.Value) // Проверка на значение null
+                int КодПриема = Convert.ToInt32(row["КодПриема"]);
+
+                string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
+                string queryString = "SELECT * FROM Прием";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    int id;
-                    if (int.TryParse(row["Код"].ToString(), out id)) // Попытка преобразования значения в целое число
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
                     {
-                        EditUserDialog dialog = new EditUserDialog(3);
-                        if (dialog.ShowDialog() == true)
+                        string Код = reader["Код"].ToString();
+
+                        if (КодПриема.ToString() == Код)
                         {
-                            BindDataToGrid(); // Обновляем отображаемые данные после редактирования
+                            MessageBox.Show("Выбрана " + Код  + " запись");
+
+                            Edit dialog = new Edit(reader["КодВрача"].ToString(), reader["КодПациента"].ToString(), reader["ДатаВизита"].ToString(), reader["КодСтоимости"].ToString(), reader["Цель"].ToString(), reader["КодДиагноза"].ToString());
+                            if (dialog.ShowDialog() == true)
+                            {
+                                connection.Open();
+                            }
+
+                            BindDataToGrid();
+                            break;
+
                         }
+
                     }
-                    else
-                    {
-                        MessageBox.Show("Ошибка: Невозможно преобразовать значение КодПриема в целое число.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Ошибка: Значение КодПриема не может быть null.");
                 }
             }
-            else
-            {
-                MessageBox.Show("Пожалуйста, выберите строку для редактирования.");
-            }*/
-        }
 
+        }
     }
 }

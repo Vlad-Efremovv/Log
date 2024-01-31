@@ -58,8 +58,8 @@
     <Compile Include="AddUserDialog.xaml.cs">
       <DependentUpon>AddUserDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditUserDialog.xaml.cs">
-      <DependentUpon>EditUserDialog.xaml</DependentUpon>
+    <Compile Include="Edit.xaml.cs">
+      <DependentUpon>Edit.xaml</DependentUpon>
     </Compile>
     <Compile Include="USER_Page.xaml.cs">
       <DependentUpon>USER_Page.xaml</DependentUpon>
@@ -68,7 +68,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditUserDialog.xaml">
+    <Page Include="Edit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
