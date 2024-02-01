@@ -21,26 +21,27 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Label Content="Код Врача:" Grid.Row="0" Margin="5"/>
         <TextBox x:Name="DoctorCode" Text="{Binding DoctorCode}" Grid.Row="1" Margin="5"/>
 
         <Label Content="Код Пациента:" Grid.Row="2" Margin="5"/>
-        <TextBox x:Name="PatientCode" Text="{Binding DoctorCode}" Grid.Row="3" Margin="5"/>
+        <TextBox x:Name="PatientCode" Text="{Binding PatientCode}" Grid.Row="3" Margin="5"/>
 
         <Label Content="Дата Визита:" Grid.Row="4" Margin="5"/>
-        <TextBox x:Name="VisitDate" Text="{Binding DoctorCode}" Grid.Row="5" Margin="5"/>
+        <TextBox x:Name="VisitDate" Text="{Binding VisitDate}" Grid.Row="5" Margin="5"/>
 
         <Label Content="Код Стоимости:" Grid.Row="6" Margin="5"/>
-        <TextBox x:Name="CostCode" Text="{Binding DoctorCode}" Grid.Row="7" Margin="5"/>
+        <TextBox x:Name="CostCode" Text="{Binding CostCode}" Grid.Row="7" Margin="5"/>
 
         <Label Content="Цель:" Grid.Row="8" Margin="5"/>
-        <TextBox x:Name="Purpose" Text="{Binding DoctorCode}" Grid.Row="9" Margin="5"/>
+        <TextBox x:Name="Purpose" Text="{Binding Purpose}" Grid.Row="9" Margin="5"/>
 
         <Label Content="КодДиагноза:" Grid.Row="10" Margin="5"/>
-        <TextBox x:Name="Diagnoz" Text="{Binding DoctorCode}" Grid.Row="11" Margin="5"/>
+        <TextBox x:Name="Diagnoz" Text="{Binding Diagnoz}" Grid.Row="11" Margin="5"/>
 
-        <Button Content="Сохранить" Grid.Row="12" Margin="5" Click="EditButton_Click"/>
+        <Button Content="Сохранить" Grid.Row="13" Margin="5" Click="EditButton_Click"/>
     </Grid>
 </Window>

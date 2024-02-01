@@ -50,7 +50,7 @@ namespace _11
                 {
                     connection.Open();
 
-                    string query = "SELECT \r\n    Прием.Код AS КодПриема,\r\n    Врачь.ФИО AS ФИОВрача,\r\n    Пациент.ФИО AS ФИОПациента,\r\n    Прием.ДатаВизита,\r\n    Стоимость.Сумма AS СтоимостьВизита,\r\n    Диагноз.Наименование AS НаименованиеДиагноза\r\nFROM \r\n    Прием\r\nJOIN \r\n    Врачь ON Прием.КодВрача = Врачь.Код\r\nJOIN \r\n    Пациент ON Прием.КодПациента = Пациент.НомерКарты\r\nJOIN \r\n    Стоимость ON Прием.КодСтоимости = Стоимость.Код\r\nLEFT JOIN \r\n    Диагноз ON Прием.КодДиагноза = Диагноз.Код;"; // Замените YourTableName на название вашей таблицы
+                    string query = "SELECT \r\n    Прием.Код AS КодПриема,\r\n    Врачь.ФИО AS ФИОВрача,\r\n    Пациент.ФИО AS ФИОПациента,\r\n    Прием.ДатаВизита,\r\n    Стоимость.Сумма AS СтоимостьВизита,\r\n    Диагноз.Наименование AS НаименованиеДиагноза\r\n, Цель FROM \r\n    Прием\r\nJOIN \r\n    Врачь ON Прием.КодВрача = Врачь.Код\r\nJOIN \r\n    Пациент ON Прием.КодПациента = Пациент.НомерКарты\r\nJOIN \r\n    Стоимость ON Прием.КодСтоимости = Стоимость.Код\r\nLEFT JOIN \r\n    Диагноз ON Прием.КодДиагноза = Диагноз.Код;"; // Замените YourTableName на название вашей таблицы
 
                     SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
                     DataTable dt = new DataTable();
@@ -150,6 +150,22 @@ namespace _11
                         }
 
                     }
+                }
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        connection.Open();
+                        string query = "DELETE FROM Прием WHERE Код = @КодПриема";
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@КодПриема", КодПриема);
+                        command.ExecuteNonQuery();
+                    }
+                    BindDataToGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка при удалении записи: " + ex.Message);
                 }
             }
 
