@@ -8,11 +8,13 @@ __Программа "Больница"__
 
 Для отслуживания и созданна данная программа
 
+
 __КАК ЗАПУСТИТЬ__
 
 Открыть и запустить файл https://github.com/Vlad-Efremovv/Log/blob/main/SQLQuery1.sql
 
 Скачать архив и зайти в "..\11\bin\Debug\11.exe"
+
 
 __Хэширование верез MD5__
 
@@ -34,6 +36,7 @@ public static string CalculateMD5Hash(string input)
     }
 }
 }
+
 
 SELECT 
     Прием.Код AS КодПриема,
