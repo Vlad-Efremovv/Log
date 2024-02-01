@@ -33,7 +33,7 @@ namespace _11
                 string password = txtPassword.Password;
 
                 string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
-                MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                //MessageBox.Show("Хэшированный пароль: " + hashedPassword);
                 //txtUsername.Text = hashedPassword;
 
                 string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
@@ -73,6 +73,35 @@ namespace _11
                         MessageBox.Show("Чушпан!\nТы что ввел то?\nСам видел то?");
                     }
 
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex);
+
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string username = txtUsername.Text;
+                string password = txtPassword.Password;
+
+                string hashedPassword = PasswordHashing.CalculateMD5Hash(password);
+                //MessageBox.Show("Хэшированный пароль: " + hashedPassword);
+                //txtUsername.Text = hashedPassword;
+
+                string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Больница;Integrated Security=True";
+                string queryString = "INSERT INTO Авторизация VALUES ('"+username+"', '"+ hashedPassword + "');";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
                 }
             }
             catch (Exception ex)
