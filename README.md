@@ -16,26 +16,24 @@ __КАК ЗАПУСТИТЬ__
 Скачать архив и зайти в "..\11\bin\Debug\11.exe"
 
 
-__Хэширование верез MD5__
+__Хэширование происходит через функцию MD5__
 
-код :
-
-public static string CalculateMD5Hash(string input)
-{
-    using (MD5 md5 = MD5.Create())
+    public static string CalculateMD5Hash(string input)
     {
-        byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-        byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < hashBytes.Length; i++)
+        using (MD5 md5 = MD5.Create())
         {
-            sb.Append(hashBytes[i].ToString("x2"));
+            byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+    
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("x2"));
+            }
+            return sb.ToString();
         }
-        return sb.ToString();
     }
-}
-}
+
 
 
 SELECT 
